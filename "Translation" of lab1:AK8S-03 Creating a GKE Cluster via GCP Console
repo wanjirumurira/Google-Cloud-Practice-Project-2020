@@ -1,0 +1,49 @@
+#lab--AK8S-03 Creating a GKE Cluster via GCP Console
+
+#Task 1. Deploy GKE clusters
+
+#Create a Kubernetes cluster.
+
+gcloud container clusters create standard-cluster-1 \
+    --zone us-central1-a
+#As shown from the output the number of nodes is 3 which will be modified in the next step
+
+#set the environment variable for the zone and cluster name
+
+export my_zone=us-central1-a
+export my_cluster=standard-cluster-1
+
+
+Task 2. Modify GKE clusters
+
+#Change the number of nodes to 4
+gcloud container clusters resize $my_cluster --zone $my_zone --num-nodes=4
+
+##If prompted [Y/n], press Y and then Enter.
+
+#Confirm that there are 4 nodes by running
+
+kubectl get nodes
+
+Task 3. Deploy a sample workload
+
+To deploy the latest version of nginx as a Pod named nginx-1:
+
+kubectl create deployment nginx-1 --image nginx:latest
+
+#To view all the deployed Pods in the active context cluster:
+
+kubectl get pods
+
+#Enter the Pod's name in [your_pod_name] obtained in the above step into a variable
+
+export my_nginx_pod=[your_pod_name]
+
+Task 4. View details about workloads in the GCP Console
+
+#To view the complete details of the Pod you just created run
+
+kubectl describe pod $my_nginx_pod
+
+
+//End lab
